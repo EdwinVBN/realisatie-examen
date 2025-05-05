@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block head_title %}
+    profiel
+{% endblock %}
+{% block content %}
+    <h1>
+        profiel
+    </h1>
+    <section style="display: flex; flex-direction: row; justify-content: space-evenly;">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+        </form>
+    </section>
+{% endblock %}

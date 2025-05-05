@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block head_title %}
+    autos
+{% endblock %}
+{% block content %}
+    <h1>autos</h1>
+    {% for auto in autos %}
+        <a href="{% url 'auto_details' auto.id %}">
+            {{ auto.merk }} | {{ auto.model }} | {{ auto.kenteken }}
+        </a>
+        <p>
+            -
+        </p>
+    {% endfor %}
+    <br>
+    <a href="{% url 'auto_create' %}">nieuw auto</a>
+{% endblock %}

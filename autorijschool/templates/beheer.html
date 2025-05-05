@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block head_title %}
+    beheer
+{% endblock %}
+{% block content %}
+    <h1>beheer</h1>
+    <section id="container">
+        <section id="klanten">
+            <h2>Klanten</h2>
+            {% for klant in klanten %}
+                <a href="{% url 'profile_details' klant.id %}">{{ klant.username }}</a>
+            {% endfor %}
+        </section>
+        <section id="instructeurs">
+            <h2>Instructeurs</h2>
+            {% for instructeur in instructeurs %}
+                <a href="{% url 'profile_details' instructeur.id %}">{{ instructeur.username }}</a>
+            {% endfor %}
+        </section>
+    </section>
+{% endblock %}

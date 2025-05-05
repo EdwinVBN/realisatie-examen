@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block head_title %}
+    auto
+{% endblock %}
+{% block content %}
+    <h1>auto</h1>
+    {% if form %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Opslaan</button>
+            <a href="{% url 'auto_details' auto.id %}">Annuleren</a>
+        </form>
+    {% else %}
+        <p>{{ auto.merk }} {{ auto.model }} {{ auto.kenteken }}</p>
+        <p>Type: {{ auto.soort.type }}</p>
+        {% if auto.soort.instructeur %}
+            <p>Instructeur: {{ auto.soort.instructeur.first_name }} {{ auto.soort.instructeur.last_name }}</p>
+        {% else %}
+            <p>Geen instructeur toegewezen</p>
+        {% endif %}
+        <section class="button-group">
+            <a href="{% url 'auto_edit' auto.id %}" class="button">Bewerken</a>
+            <a href="{% url 'auto_delete' auto.id %}" class="button" onclick="return confirm('Weet je zeker dat je deze auto wilt verwijderen?')">Verwijderen</a>
+            <a href="{% url 'autos' %}" class="button">Terug naar autos</a>
+        </section>
+    {% endif %}
+{% endblock %}

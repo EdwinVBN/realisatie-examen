@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block head_title %}
+    profiel details
+{% endblock %}
+{% block content %}
+    <h1>profiel details</h1>
+    {% if gebruiker.is_active %}
+        <p>Account is actief</p>
+    {% else %}
+        <p>Account is gedeactiveerd</p>
+    {% endif %}
+    
+    {% if form %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <section class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <section class="error">
+                            {{ field.errors }}
+                        </section>
+                    {% endif %}
+                </section>
+            {% endfor %}
+            <section class="button-group">
+                <button type="submit" class="button">Opslaan</button>
+                <a href="{% url 'profile_details' gebruiker.id %}" class="button">Annuleren</a>
+                <a href="{% url 'profile_deactivate' gebruiker.id %}" class="button warning" onclick="return confirm('Weet je zeker dat je dit account wilt deactiveren?')">Account deactiveren</a>
+            </section>
+        </form>
+    {% else %}
+        <section class="profile-info">
+            <h3>Last login: {{ gebruiker.last_login }}</h3>
+            <p>Username: {{ gebruiker.username }}</p>
+            <p>Email: {{ gebruiker.email }}</p>
+            <p>Rol: {{ gebruiker.rol }}</p>
+            <p>Naam: {{ gebruiker.first_name }} {% if gebruiker.tussenvoegsel %}{{ gebruiker.tussenvoegsel }}{% endif %} {{ gebruiker.last_name }}</p>
+            <p>Adres: {{ gebruiker.adres }} {{ gebruiker.huisnummer }}</p>
+            <p>Postcode en plaats: {{ gebruiker.postcode }} {{ gebruiker.woonplaats }}</p>
+        </section>
+
+        <section class="button-group">
+            <a href="{% url 'profile_details_edit' gebruiker.id %}" class="button">Bewerken</a>
+            <a href="{% url 'profile_deactivate' gebruiker.id %}" class="button" onclick="return confirm('Weet je zeker dat je dit account wilt deactiveren?')">Account deactiveren</a>
+            <a href="{% url 'profile_activate' gebruiker.id %}" class="button" onclick="return confirm('Weet je zeker dat je dit account wilt activeren?')">Account activeren</a>
+            <a href="{% url 'beheer' %}" class="button">Terug naar beheer</a>
+        </section>
+    {% endif %}
+{% endblock %}

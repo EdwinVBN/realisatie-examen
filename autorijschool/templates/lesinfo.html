@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+    Les Details - {{ les.doel }}
+{% endblock %}
+
+{% block content %}
+    <h1>Les Details</h1>
+
+    <section>
+        <h2>Doel: {{ les.doel }}</h2>
+        <p><strong>Tijd:</strong> {{ les.lestijd }}</p>
+        <p><strong>Klant:</strong> {{ les.gebruiker.get_full_name }}</p>
+        <p><strong>Instructeur:</strong> 
+            {% if les.auto.soort.instructeur %}
+                {{ les.auto.soort.instructeur.get_full_name }}
+            {% else %}
+                Nog niet toegewezen
+            {% endif %}
+        </p>
+        <p><strong>Soort Les:</strong> {{ les.auto.soort.type }}</p>
+        <p><strong>Onderwerpen:</strong>
+            {% for les_onderwerp in les.onderwerp.all %}
+                {{ les_onderwerp.onderwerp.onderwerp }}
+            {% endfor %}
+        </p>
+        <p><strong>Status:</strong> 
+            {% if les.geannuleerd %}
+                Gaat niet door
+            {% else %}
+                Gaat door
+            {% endif %}
+        </p>
+        <p><strong>Reden annuleren:</strong> {{ les.reden_annuleren|default:"Geen" }}</p>
+        <p><strong>Lespakket:</strong> {{ les.lespakket.naam }}</p>
+        <p><strong>Auto:</strong> {{ les.auto.merk }} {{ les.auto.model }}</p>
+        <p><strong>Ophaal Locatie:</strong> {{ les.ophaal_locatie.adres }}, {{ les.ophaal_locatie.postcode }} - {{ les.ophaal_locatie.plaats }}</p>
+    </section>
+
+    <hr>
+
+    <h3>Bewerk Les</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Bewerk Les</button>
+    </form>
+
+    <hr>
+
+    <a href="{% url 'planning' %}">Terug naar overzicht</a>
+{% endblock %}

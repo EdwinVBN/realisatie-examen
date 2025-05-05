@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block head_title %}
+    planning
+{% endblock %}
+{% block content %}
+    <h1>
+        planning
+    </h1>
+
+    {% if lessen %}
+        {% for les in lessen %}
+            <a href="{% url 'lesinfo' les.id %}">
+            {{ les.lestijd }} - {{ les.doel }} -
+            {% if not les.geannuleerd %}
+                Status: gaat door
+            {% else %}
+                Status: gaat niet door
+            {% endif %}
+            </a>
+            <br>
+            -
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>Geen lessen gevonden</p>
+    {% endif %}
+    
+    
+
+{% endblock %}

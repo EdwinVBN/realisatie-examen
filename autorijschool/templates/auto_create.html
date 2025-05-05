@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block head_title %}
+    auto aanmaken
+{% endblock %}
+{% block content %}
+    <h1>auto aanmaken</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">aanmaken</button>
+    </form>
+{% endblock %}

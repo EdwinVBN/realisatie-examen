@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block head_title %}
+
+        {% endblock  %}
+    </title>
+</head>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+        <a href="{% url "logout" %}">logout</a>
+        <a href="{% url "home" %}">Home</a>
+        {% if user.rol == 'instructeur' or user.rol == 'klant' %}
+            <a href="{% url "profile" %}">Profiel</a>
+            <a href="{% url "planning" %}">planning</a>
+            <a href="{% url "lespakket" %}">lespakket</a>
+        {% endif %}
+        {% if user.rol == 'eigenaar' %}
+            <a href="{% url "beheer" %}">userbeheer</a>
+            <a href="{% url "autos" %}">autos</a>
+        {% endif %}
+        <br>
+        <p>Welcome, {{ user.username }}!</p>
+        {% else %}
+            <a href="{% url "home" %}">Home</a>
+            <a href="{% url "login" %}">login</a>
+            <a href="{% url "register" %}">register</a>
+        {% endif %}
+    </header>
+    {% block content %}
+    
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block head_title %}
+    lespakket
+{% endblock %}
+{% block content %}
+    <h1>lespakket</h1>
+    {% if gebruiker_lespakket %}
+        <section style="border: 1px solid black; margin: 10px; padding: 10px;">
+            <h3>Huidig lespakket:</h3>
+            <p>Naam: {{ gebruiker_lespakket.lespakket.naam }}</p>
+            <p>Omschrijving: {{ gebruiker_lespakket.lespakket.omschrijving }}</p>
+            <p>Aantal lessen: {{ gebruiker_lespakket.lespakket.aantal }}</p>
+            <p>Prijs: €{{ gebruiker_lespakket.lespakket.prijs }}</p>
+            <p>Soort les: {{ gebruiker_lespakket.lespakket.soortles }}</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <label for="lespakket_id">Wijzig lespakket:</label>
+                <select name="lespakket_id" id="lespakket_id">
+                    {% for lespakket in lespakketten %}
+                        <option value="{{ lespakket.id }}" {% if gebruiker_lespakket.lespakket.id == lespakket.id %}selected{% endif %}>
+                            {{ lespakket.naam }} - €{{ lespakket.prijs }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Wijzig lespakket</button>
+            </form>
+        </section>
+    {% else %}
+        <section style="display: flex; flex-direction: column;">
+            {% if lespakketten %}
+            {% for lespakket in lespakketten %}
+                <section style="border: 1px solid black; margin: 10px; padding: 10px;">
+                    <p>naam: {{ lespakket.naam }}</p>
+                    <p>omschrijving: {{ lespakket.omschrijving }}</p>
+                    <p>aantal: {{ lespakket.aantal }}</p>
+                    <p>prijs: {{ lespakket.prijs }}</p>
+                    <p>soortles: {{ lespakket.soortles }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="lespakket_id" value="{{ lespakket.id }}">
+                        <button type="submit">selecteer</button>
+                    </form>
+                </section>
+                {% endfor %}
+            {% else %}
+                <p>Er zijn geen lespakketten gevonden.</p>
+            {% endif %}
+        </section>
+    {% endif %}
+
+{% endblock %}
+
